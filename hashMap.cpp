@@ -7,29 +7,43 @@
 using namespace std;
 
 hashMap::hashMap() {
-    map = NULL;
-    first = NULL;
-    numKeys = NULL;
-    mapSize = NULL;
+    map = new *hashNode[mapSize];
+    first = "";
+    numKeys = 0;
+    mapSize = 100;
 }
 
 //AddKeyValue
+// adds a node to the map at the correct index based on the key string, and
+//then inserts the value into the value field of the hashNode
+// Must check to see whether there's already a node at that location. If
+//there's nothing there (it's NULL), add the hashNode with the keyword and value.
+// If the node has the same keyword, just add the value to the list of values.
+//If the node has a different keyword, keep calculating a new hash index until
+//either the keyword matches the node at that index's keyword, or until the
+// map at that index is NULL, in which case you'll add the node there.
+//This method also checks for load, and if the load is over 70%, it calls the
+//reHash method to create a new longer map array and rehash the values
 
 void hashMap::addKeyValue(string k, string v) {
     //there's nothing there (it's NULL), add the hashNode with the keyword and value
-    if (map[v] == NULL) {
+    if (mapSize == 0) {
 
         //Make a new Hashnode
-        hashNode temp = new hashNode(k, v);
+        hashNode *temp = new hashNode(k,v);
 
-        //add the hashNode with the keyword and value.
-        (map + 1) = temp;
+        //add the hashNode with the keyword and value--based on index k from calc hash.
+        //
+        int index = calcHash(k);
+        map[index] = temp;
         numKeys++;
     }
+
+    //add to the list of values
     bool same = false;
-    for (int i = 0; i <= mapSize; i++) {
-        if (map[i]->keyword == v) {
-            map[i]->addValue(k);
+    for (int i = 0; i < mapSize; i++) {
+        if (map[i]->keyword == k) {
+            map[i]->addValue(v);
             same = true;
         }
 
@@ -37,7 +51,14 @@ void hashMap::addKeyValue(string k, string v) {
     if (same == false) {
         int tempIndex = -1;
         int newIndex = -1;
-        while (map[v] != NULL || map->keyword == v) {
+        //
+        
+        //uses calchash to get index
+        //check the index for NULL
+        //if not collision
+        //call dblhash
+        //if null add key and the value
+        while (map[v] != NULL || map->keyword == k) {
             tempIndex = calcHash(k); //This looks at a new index
             if (map[calcHash(k)]->keyword == v) {
                 newIndex = tempIndex;
@@ -49,9 +70,10 @@ void hashMap::addKeyValue(string k, string v) {
 
         if (newIndex == -1) {
             //Then you just add it on the end
-            hashNode temp = new hashNode(k, v);
+            hashNode *temp = new hashNode(k, v);
             //add the hashNode with the keyword and value.
-            (map + 1) = temp;
+            int index = calcHash(k);
+            map[index] = temp;
             numKeys++;
         }
 

@@ -30,7 +30,7 @@ hashNode::hashNode(string s) {
 
 hashNode::hashNode(string s, string v) {
     //increment the Array, and put in the new string
-    (values + 1) = v;
+  //  (values + 1) = v;
 
     //Update currSize to 1
     currSize = 1;

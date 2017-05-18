@@ -19,12 +19,17 @@ public:
     //    whatever you like for starting), the currSize to 0, and the valuesSize to 100
     //            hashNode(string s, string v); // in addition, puts a value in the values
     //    array and initializes currSize to 1
+
+    hashNode(string s); // initializes keyword to s, the arraysize to 100 (or
+
+    hashNode(string s, string v); // in addition, puts a value in the values
+
     void addValue(string v); // adds a new value to the end of the values array,
     //    increases currSize, checks to make sure there’s more space, and, if not, calls
     // dblArray()
     void dblArray(); //creates a new array, double the length, and copies over the
     //    values. Sets the values array to be the newly allocated array.
-    string getRandValue(); 
+    string getRandValue();
     // returns a random string from the values array. If
     //    there’s no values in the value array, then it returns an empty string.
 };
