@@ -7,7 +7,7 @@
 using namespace std;
 
 hashMap::hashMap() {
-    map = new *hashNode[mapSize];
+    // map = new *hashNode[100];
     first = "";
     numKeys = 0;
     mapSize = 100;
@@ -26,11 +26,11 @@ hashMap::hashMap() {
 //reHash method to create a new longer map array and rehash the values
 
 void hashMap::addKeyValue(string k, string v) {
-    //there's nothing there (it's NULL), add the hashNode with the keyword and value
+    //there's nothing there (it's NULL), add the hashNode with the keyword and value 
     if (mapSize == 0) {
 
         //Make a new Hashnode
-        hashNode *temp = new hashNode(k,v);
+        hashNode *temp = new hashNode(k, v);
 
         //add the hashNode with the keyword and value--based on index k from calc hash.
         //
@@ -52,21 +52,21 @@ void hashMap::addKeyValue(string k, string v) {
         int tempIndex = -1;
         int newIndex = -1;
         //
-        
+
         //uses calchash to get index
         //check the index for NULL
         //if not collision
         //call dblhash
         //if null add key and the value
-        while (map[v] != NULL || map->keyword == k) {
-            tempIndex = calcHash(k); //This looks at a new index
-            if (map[calcHash(k)]->keyword == v) {
-                newIndex = tempIndex;
-                map[newIndex]->addValue(k); //adding value to node
-                numKeys++;
-            }
-
-        }
+        //        while (map[v] != NULL || map->keyword == k) {
+        //            tempIndex = calcHash(k); //This looks at a new index
+        //            if (map[calcHash(k)]->keyword == v) {
+        //                newIndex = tempIndex;
+        //                map[newIndex]->addValue(k); //adding value to node
+        //                numKeys++;
+        //            }
+        //
+        //        }
 
         if (newIndex == -1) {
             //Then you just add it on the end
@@ -91,6 +91,19 @@ int hashMap::getIndex(string k) {
 
 int hashMap::calcHash(string k) {
     //return k % mapSize;
+    int strSum = 0;
+    string::iterator si1;
+    for (si1 = k.begin(); si1 < k.end(); si1++) {
+        //the string iterator holds the address of a particular character within the string 
+        //so we need to deref the iterators value (i.e. it holds a memory address) to get the character
+        strSum += int(*si1 - 'a') + 1;
+
+    }
+    // i.e: string "abc" would have a value of 1+2+3=6 
+    //strSum holds the sum of the chars of string k
+    //this hash function calculates index by modding strSum by mapsize
+
+    return strSum % mapSize;
 }
 
 void hashMap::getClosestPrime() {

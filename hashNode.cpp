@@ -38,7 +38,7 @@ hashNode::hashNode(string s, string v) {
 
 void hashNode::addValue(string v) {
     // adds a new value to the end of the values array,
-    (values + 1) = v;
+    //(values + 1) = v;
 
     //increases currSize,
     currSize++;
@@ -59,9 +59,9 @@ void hashNode::dblArray() {
 
     //Copying over the values
     for (int i = 0; i <= currSize; i++) {
-        dblArray[i] = values[i];
+        //dblArray[i] = values[i];
     }
-    values = dblArray;
+    //values = dblArray;
 
 }
 
