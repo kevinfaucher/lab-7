@@ -7,7 +7,7 @@
 using namespace std;
 
 hashMap::hashMap() {
-    map = new *hashNode[100];
+    *map = new hashNode[100];
     first = "";
     numKeys = 0;
     mapSize = 100;
@@ -27,7 +27,13 @@ hashMap::hashMap() {
 
 void hashMap::addKeyValue(string k, string v) {
     //there's nothing there (it's NULL), add the hashNode with the keyword and value 
-    if (mapSize == 0) {
+    // if (mapSize == 0) {
+
+    float sev = 0.7; // value for checking if array is 70% full
+    if ((float) (numKeys / mapSize) > sev) {
+        reHash();
+    }
+    if (numKeys == 0) {
 
         //Make a new Hashnode
         hashNode *temp = new hashNode(k, v);
@@ -53,10 +59,15 @@ void hashMap::addKeyValue(string k, string v) {
         int newIndex = -1;
         //
 
+
+        //RIGHT
         //uses calchash to get index
         //check the index for NULL
         //if not Null there is a collision
         //call dblhash
+
+
+        //WRONG
         //if null add key and the value
         //        while (map[v] != NULL || map->keyword == k) {
         //            tempIndex = calcHash(k); //This looks at a new index
@@ -78,10 +89,29 @@ void hashMap::addKeyValue(string k, string v) {
         }
 
     }
-    float sev = 0.7; // value for checking if array is 70% full
-    if ((float) (numKeys / mapSize) > sev) {
-        reHash();
-    }
+
+    //RIGHT
+    //uses calchash to get index
+    //check the index for NULL
+    //if not Null there is a collision
+    //call dblhash
+
+
+    int hashIndex = calcHash(k);
+
+    if (map[hashIndex] == NULL) {
+        //add the key and value
+        //Make a new Hashnode
+        hashNode *temp = new hashNode(k, v);
+
+        //add the hashNode with the keyword and value--based on index k from calc hash.
+        //
+        int index = calcHash(k);
+        map[index] = temp;
+        numKeys++;
+    } else if (map[hashIndex] != NULL)
+        //dblHash( h, hashIndex, k);
+        NULL;
 
 }
 
