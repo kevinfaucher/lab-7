@@ -7,7 +7,7 @@
 using namespace std;
 
 hashMap::hashMap() {
-    // map = new *hashNode[100];
+    map = new *hashNode[100];
     first = "";
     numKeys = 0;
     mapSize = 100;
@@ -55,7 +55,7 @@ void hashMap::addKeyValue(string k, string v) {
 
         //uses calchash to get index
         //check the index for NULL
-        //if not collision
+        //if not Null there is a collision
         //call dblhash
         //if null add key and the value
         //        while (map[v] != NULL || map->keyword == k) {
@@ -119,7 +119,13 @@ int hashMap::dblHash(int h, int i, string k) {
 }
 
 int hashMap::findKey(string k) {
-
+    for (int i = 0; i < mapSize; i++) {
+        if (map[i]->keyword == k) {
+            return map[i];
+        } else {
+            return -1;
+        }
+    }
 }
 
 void hashMap::printMap() {
