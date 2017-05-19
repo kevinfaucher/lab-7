@@ -121,7 +121,7 @@ int hashMap::dblHash(int h, int i, string k) {
 int hashMap::findKey(string k) {
     for (int i = 0; i < mapSize; i++) {
         if (map[i]->keyword == k) {
-            return map[i];
+            return i;
         } else {
             return -1;
         }
