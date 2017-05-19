@@ -30,7 +30,8 @@ hashNode::hashNode(string s) {
 
 hashNode::hashNode(string s, string v) {
     //increment the Array, and put in the new string
-  //  (values + 1) = v;
+    //Need to increment the pointer and put in a string
+    (values++)* = v;
 
     //Update currSize to 1
     currSize = 1;
@@ -38,7 +39,7 @@ hashNode::hashNode(string s, string v) {
 
 void hashNode::addValue(string v) {
     // adds a new value to the end of the values array,
-    //(values + 1) = v;
+    (values + 1)* = v;
 
     //increases currSize,
     currSize++;
