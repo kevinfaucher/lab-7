@@ -202,5 +202,7 @@ int hashMap::findKey(string k) {
 }
 
 void hashMap::printMap() {
-
+    for(int i = 0; i <=numKeys; i++){
+        cout << map[i]->keyword << " : " << map[i]->values << endl;
+    }
 }
