@@ -26,9 +26,10 @@ using namespace std;
  */
 int main() {
 
-    string g = "DrSeuss.txt";
-    string h = "newfile.txt";  
-    makeSeuss( g, h);
+    string f1 = "DrSeuss.txt";
+    string f2 = "newfile.txt";  
+    makeSeuss makeSeuss(f1, f2);
+    
     return 0;
 }
 
