@@ -94,8 +94,16 @@ void hashMap::addKeyValue(string k, string v) {
 
 }
 
-int hashMap::getIndex(string k) {
 
+// uses calcHash and reHash to calculate and return
+    //the index of where the keyword k should be inserted into the map array
+int hashMap::getIndex(string k) {
+    float sev = 0.7; // value for checking if array is 70% full
+    if ((float) (numKeys / mapSize) > sev) {
+        reHash();
+    }else{
+        return calcHash(k);
+    }
 }
 
 int hashMap::calcHash(string k) {
@@ -115,12 +123,27 @@ int hashMap::calcHash(string k) {
     return strSum % mapSize;
 }
 
+
+// I used a binary search on an array of prime
+    //numbers to find the closest prime to double the map Size, and then set mapSize to
+    //that new prime. You can include as one of the fields an array of prime numbers, or
+    //you can write a function that calculates the next prime number. Whichever you
+    //prefer.
 void hashMap::getClosestPrime() {
 
 }
 
+// when size of array is at 70%, double array size and rehash
+    //keys
 void hashMap::reHash() {
-
+    hashNode **dblMapArray1;
+    *dblMapArray1 = new hashNode[mapSize * 2];
+    
+     for (int i = 0; i <= mapSize; i++) {
+        dblMapArray1[i] = map[i];
+    }
+    delete [] map;
+    map = dblMapArray1;
 }
 
 int hashMap::dblHash(string k) {
