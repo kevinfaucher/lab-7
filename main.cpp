@@ -12,8 +12,6 @@
  */
 
 #include "makeSeuss.hpp"
-#include "hashMap.hpp"
-#include "hashNode.hpp"
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -27,7 +25,7 @@ using namespace std;
 int main() {
 
     string f1 = "DrSeuss.txt";
-    string f2 = "newfile.txt";  
+    string f2 = "NewBook.txt";  
     makeSeuss makeSeuss(f1, f2);
     
     return 0;
