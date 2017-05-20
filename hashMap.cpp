@@ -57,27 +57,6 @@ void hashMap::addKeyValue(string k, string v) {
     if (same == false) {
         int tempIndex = -1;
         int newIndex = -1;
-        //
-
-
-        //RIGHT
-        //uses calchash to get index
-        //check the index for NULL
-        //if not Null there is a collision
-        //call dblhash
-
-
-        //WRONG
-        //if null add key and the value
-        //        while (map[v] != NULL || map->keyword == k) {
-        //            tempIndex = calcHash(k); //This looks at a new index
-        //            if (map[calcHash(k)]->keyword == v) {
-        //                newIndex = tempIndex;
-        //                map[newIndex]->addValue(k); //adding value to node
-        //                numKeys++;
-        //            }
-        //
-        //        }
 
         if (newIndex == -1) {
             //Then you just add it on the end
@@ -110,8 +89,8 @@ void hashMap::addKeyValue(string k, string v) {
         map[index] = temp;
         numKeys++;
     } else if (map[hashIndex] != NULL)
-        //dblHash( h, hashIndex, k);
-        NULL;
+        dblHash(k);
+
 
 }
 
@@ -144,8 +123,25 @@ void hashMap::reHash() {
 
 }
 
-int hashMap::dblHash(int h, int i, string k) {
+int hashMap::dblHash(string k) {
+    int primeNum = 7; //Initializing a prime number less than the size of the map
+    //lucky number 7--can't go wrong :)
+  
+    int strSum1 = 0; //This will contain the numerical value of the string 
+    
+    string::iterator si1;
+    for (si1 = k.begin(); si1 < k.end(); si1++) {
+        //the string iterator holds the address of a particular character within the string 
+        //so we need to deref the iterators value (i.e. it holds a memory address) to get the character
+        strSum1 += int(*si1 - 'a') + 1;
 
+    }
+    // i.e: string "abc" would have a value of 1+2+3=6 
+    //strSum holds the sum of the chars of string k
+    //this hash function calculates index by modding strSum by mapsize
+
+
+    return primeNum - (strSum1 % primeNum);
 }
 
 int hashMap::findKey(string k) {

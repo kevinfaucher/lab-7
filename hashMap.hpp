@@ -32,7 +32,7 @@ public:
     //prefer.
     void reHash(); // when size of array is at 70%, double array size and rehash
     //keys
-    int dblHash(int h, int i, string k); // for hashing when index is already
+    int dblHash(string k); // for hashing when index is already
     //full
     int findKey(string k); //finds the key in the array and returns its index.
     //If it's not in the array, returns -1
