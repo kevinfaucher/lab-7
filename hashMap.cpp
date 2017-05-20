@@ -96,12 +96,13 @@ void hashMap::addKeyValue(string k, string v) {
 
 
 // uses calcHash and reHash to calculate and return
-    //the index of where the keyword k should be inserted into the map array
+//the index of where the keyword k should be inserted into the map array
+
 int hashMap::getIndex(string k) {
     float sev = 0.7; // value for checking if array is 70% full
     if ((float) (numKeys / mapSize) > sev) {
         reHash();
-    }else{
+    } else {
         return calcHash(k);
     }
 }
@@ -125,21 +126,44 @@ int hashMap::calcHash(string k) {
 
 
 // I used a binary search on an array of prime
-    //numbers to find the closest prime to double the map Size, and then set mapSize to
-    //that new prime. You can include as one of the fields an array of prime numbers, or
-    //you can write a function that calculates the next prime number. Whichever you
-    //prefer.
-void hashMap::getClosestPrime() {
+//numbers to find the closest prime to double the map Size, and then set mapSize to
+//that new prime. You can include as one of the fields an array of prime numbers, or
+//you can write a function that calculates the next prime number. Whichever you
+//prefer.
+
+void hashMap::getClosestPrime(int primeArr) {
+    mapSize = mapSize * 2;
+    //now we have to find the closest prime number to this result
+    //and set mapSize equal to that
+    int myPrime = -1;
+    int i = 0;
+    while (mapSize > myPrime) {
+        myPrime = ++primeArr;
+    }
+    int higherInterval = mapSize - myPrime;
+    int higherPrime = myPrime;
+    myPrime = --primeArr;
+    int lowerInterval = mapSize - myPrime;
+    int lowerPrime = myPrime;
+
+    if (higherInterval <= lowerInterval) {
+        mapSize = higherPrime;
+    } else {
+        mapSize = lowerPrime;
+    }
+
 
 }
 
+
 // when size of array is at 70%, double array size and rehash
-    //keys
+//keys
+
 void hashMap::reHash() {
     hashNode **dblMapArray1;
     *dblMapArray1 = new hashNode[mapSize * 2];
-    
-     for (int i = 0; i <= mapSize; i++) {
+
+    for (int i = 0; i <= mapSize; i++) {
         dblMapArray1[i] = map[i];
     }
     delete [] map;
@@ -149,9 +173,9 @@ void hashMap::reHash() {
 int hashMap::dblHash(string k) {
     int primeNum = 7; //Initializing a prime number less than the size of the map
     //lucky number 7--can't go wrong :)
-  
+
     int strSum1 = 0; //This will contain the numerical value of the string 
-    
+
     string::iterator si1;
     for (si1 = k.begin(); si1 < k.end(); si1++) {
         //the string iterator holds the address of a particular character within the string 
