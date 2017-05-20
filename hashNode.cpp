@@ -56,11 +56,11 @@ void hashNode::addValue(string v) {
 //    there’s no values in the value array, then it returns an empty string.
 
 void hashNode::dblArray() {
-    int *dblArray = new int[valuesSize * 2]; //new array
+    string *dblArray = new string[valuesSize * 2]; //new array
 
     //Copying over the values
     for (int i = 0; i <= currSize; i++) {
-        //dblArray[i] = values[i];
+        dblArray[i] = values[i];
     }
     //values = dblArray;
 
