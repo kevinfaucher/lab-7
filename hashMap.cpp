@@ -138,7 +138,7 @@ int hashMap::dblHash(string k) {
     }
     // i.e: string "abc" would have a value of 1+2+3=6 
     //strSum holds the sum of the chars of string k
-    //this hash function calculates index by modding strSum by mapsize
+    //this hash function calculates index by taking primNum and subtracting  strSum mod primeNum
 
 
     return primeNum - (strSum1 % primeNum);
