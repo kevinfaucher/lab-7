@@ -27,11 +27,8 @@ using namespace std;
 int main() {
 
     string g = "DrSeuss.txt";
-    
-    
-    
-    //writeFile() ;
-            
+    string h = "newfile.txt";  
+    makeSeuss( g, h);
     return 0;
 }
 
