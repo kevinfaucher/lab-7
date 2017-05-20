@@ -11,15 +11,27 @@
  * Created on May 10, 2017, 12:03 PM
  */
 
-#include <cstdlib>
+#include "makeSeuss.hpp"
+#include "hashMap.hpp"
+#include "hashNode.hpp"
+#include <iostream>
+#include <stdlib.h>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
 /*
  * 
  */
-int main(int argc, char** argv) {
+int main() {
 
+    string g = "DrSeuss.txt";
+    
+    
+    
+    //writeFile() ;
+            
     return 0;
 }
 
