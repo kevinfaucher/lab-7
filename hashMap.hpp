@@ -25,7 +25,7 @@ public:
     int getIndex(string k); // uses calcHash and reHash to calculate and return
     //the index of where the keyword k should be inserted into the map array
     int calcHash(string k); // hash function
-    void getClosestPrime(); // I used a binary search on an array of prime
+    void getClosestPrime(int primeArr); // I used a binary search on an array of prime
     //numbers to find the closest prime to double the map Size, and then set mapSize to
     //that new prime. You can include as one of the fields an array of prime numbers, or
     //you can write a function that calculates the next prime number. Whichever you
