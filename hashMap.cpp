@@ -26,6 +26,8 @@ hashMap::hashMap() {
 //reHash method to create a new longer map array and rehash the values
 
 void hashMap::addKeyValue(string k, string v) {
+
+    cout << "made it to addKeyValue" << endl;
     //there's nothing there (it's NULL), add the hashNode with the keyword and value 
     // if (mapSize == 0) {
 
@@ -40,21 +42,23 @@ void hashMap::addKeyValue(string k, string v) {
 
         //add the hashNode with the keyword and value--based on index k from calc hash.
         //
+        cout << "about to run calchash" << endl;
         int index = calcHash(k);
+        cout << "calchash ran" << endl;
         map[index] = temp;
+        cout << "added to the map" << endl;
         numKeys++;
+        cout << "added to num keys" << endl;
     }
 
     //add to the list of values
+    cout << "adding to the list of values" << endl;
     bool same = false;
-    for (int i = 0; i < mapSize; i++) {
-        if (map[i]->keyword == k) {
-            map[i]->addValue(v);
-            same = true;
-        }
-
-    }
-    if (same == false) {
+    int x = findKey(k);
+    if (x != -1) {
+        map[x]->addValue(v);
+        same = true;
+    } else if (same == false) {
         int tempIndex = -1;
         int newIndex = -1;
 
@@ -109,19 +113,16 @@ int hashMap::getIndex(string k) {
 
 int hashMap::calcHash(string k) {
     //return k % mapSize;
-    int strSum = 0;
-    string::iterator si1;
-    for (si1 = k.begin(); si1 < k.end(); si1++) {
-        //the string iterator holds the address of a particular character within the string 
-        //so we need to deref the iterators value (i.e. it holds a memory address) to get the character
-        strSum += int(*si1 - 'a') + 1;
+    int sum = 0;
 
+    for (unsigned int i = 0; i < k.size(); i++) {
+        sum += k[i];
     }
     // i.e: string "abc" would have a value of 1+2+3=6 
     //strSum holds the sum of the chars of string k
     //this hash function calculates index by modding strSum by mapsize
 
-    return strSum % mapSize;
+    return sum % mapSize;
 }
 
 
@@ -174,21 +175,16 @@ int hashMap::dblHash(string k) {
     int primeNum = 7; //Initializing a prime number less than the size of the map
     //lucky number 7--can't go wrong :)
 
-    int strSum1 = 0; //This will contain the numerical value of the string 
-
-    string::iterator si1;
-    for (si1 = k.begin(); si1 < k.end(); si1++) {
-        //the string iterator holds the address of a particular character within the string 
-        //so we need to deref the iterators value (i.e. it holds a memory address) to get the character
-        strSum1 += int(*si1 - 'a') + 1;
-
+    int sum = 0;
+    for (unsigned int i = 0; i < k.size(); i++) {
+        sum += k[i];
     }
     // i.e: string "abc" would have a value of 1+2+3=6 
     //strSum holds the sum of the chars of string k
     //this hash function calculates index by taking primNum and subtracting  strSum mod primeNum
 
 
-    return primeNum - (strSum1 % primeNum);
+    return primeNum - (sum % primeNum);
 }
 
 int hashMap::findKey(string k) {
@@ -202,7 +198,7 @@ int hashMap::findKey(string k) {
 }
 
 void hashMap::printMap() {
-    for(int i = 0; i <=numKeys; i++){
+    for (int i = 0; i <= numKeys; i++) {
         cout << map[i]->keyword << " : " << map[i]->values << endl;
     }
 }

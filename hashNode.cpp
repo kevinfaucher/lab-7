@@ -8,9 +8,9 @@ using namespace std;
 hashNode::hashNode() {
 
     keyword = "";
-    values = NULL;
     valuesSize = 0;
-    //currSize = 0;
+    values = new string[valuesSize];
+    currSize = 0;
 }
 
 hashNode::hashNode(string s) {
@@ -19,24 +19,30 @@ hashNode::hashNode(string s) {
 
     // 2) init. arraysize to 100
     //values[100]; 
-    values = new string[100];
+    currSize = 0;
+    valuesSize = 100;
+    values = new string[valuesSize];
 
     //4) init. valuesSize to 100
-    valuesSize = 100;
+
 
     // 3) init. currSize to 0
-    currSize = 0;
+
 }
 
 hashNode::hashNode(string s, string v) {
     //increment the Array, and put in the new string
     //Need to increment the pointer and put in a string
-	    keyword = s;
-	    values = new string[100];
-	    values[currSize] = v;
-	    currSize++;
-	    valuesSize = 100;
+    cout << "constructor 3 was called" << endl;
+    cout << "this is k " << s << endl;
+    keyword = s;
 
+    cout << "created values array" << endl;
+    currSize = 1;
+    valuesSize = 100;
+    values = new string[valuesSize];
+    values[currSize] = v;
+    cout << "constructor 3 was called and completed" << endl;
 }
 
 void hashNode::addValue(string v) {

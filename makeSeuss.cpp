@@ -21,6 +21,7 @@ void makeSeuss::readFile() {
     infile>> key;
     ht->first = key;
     while (infile >> value) { // loop getting single characters
+         cout << "made it to while loop infile" << endl;
         cout << key << ": " << value << endl;
         ht->addKeyValue(key, value);
         key = value;
@@ -38,6 +39,7 @@ void makeSeuss::writeFile() {
     string value = ht->map[ht->getIndex(ht->first)]->getRandValue();
     int ct = 0;
     while (ct < 500 && value != "") {
+        cout << "made it to while loop" << endl;
         key = value;
         outfile << key << " ";
         value = ht->map[ht->getIndex(key)]->getRandValue();
