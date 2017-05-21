@@ -31,10 +31,12 @@ hashNode::hashNode(string s) {
 hashNode::hashNode(string s, string v) {
     //increment the Array, and put in the new string
     //Need to increment the pointer and put in a string
-    values[currSize] = v;
+	    keyword = s;
+	    values = new string[100];
+	    values[currSize] = v;
+	    currSize++;
+	    valuesSize = 100;
 
-    //Update currSize to 1
-    currSize = 1;
 }
 
 void hashNode::addValue(string v) {
