@@ -5,12 +5,25 @@
 #include <fstream>
 
 using namespace std;
+/*
+    hashNode **map;
+    string first; // for first keyword for printing to a file
+    int numKeys;
+    int mapSize;
+ */
+
+// when creating the map, make sure you initialize the values to
+// NULL so you know whether that index has a key in it or not already
 
 hashMap::hashMap() {
-    *map = new hashNode[100];
+    *map = new hashNode[101];
     first = "";
     numKeys = 0;
-    mapSize = 100;
+    mapSize = 101;
+
+    for (int i = 0; i < mapSize; i++) {
+        map[i] = NULL;
+    }
 }
 
 //AddKeyValue
@@ -28,68 +41,34 @@ hashMap::hashMap() {
 void hashMap::addKeyValue(string k, string v) {
 
     cout << "made it to addKeyValue" << endl;
-    //there's nothing there (it's NULL), add the hashNode with the keyword and value 
-    // if (mapSize == 0) {
-    int hashIndex = getIndex(k);
-    float sev = 0.7; // value for checking if array is 70% full
-    if ((float) (numKeys / mapSize) > sev) {
-        cout << "array is not big enough" << endl;
-        reHash();
-        cout << "made it past rehash()" << endl;
-    }
-    if (numKeys == 0) {
 
-        //Make a new Hashnode
-        hashNode *temp = new hashNode(k, v);
+    int index = getIndex(k);
+    while (map[index] != NULL) {
+        cout << "made it to addKeyValue while loop" << endl;
+        // Case 1: the current key matches. In that case, add the value
+        // to the existing hashnode and return.
+        if (map[index]->keyword == k) {
+            cout << "made it to addKeyValue if before addValue" << endl;
+            map[index]->addValue(v);
+             cout << "made it to addKeyValue if after addValue" << endl;
+            return;
+        } else {
 
-        //add the hashNode with the keyword and value--based on index k from calc hash.
-        //
-        cout << "about to run calchash" << endl;
-        int index = getIndex(k);
-        cout << "calchash ran" << endl;
-        map[index] = temp;
-        cout << "added to the map" << endl;
-        numKeys++;
-        cout << "added to num keys" << endl;
-
-    } else if (numKeys != 0) {
-
-        //add to the list of values
-        cout << "adding to the list of values" << endl;
-        int x = findKey(k);
-        if (x != -1) {
-            map[x]->addValue(v);
-
-        } else if (x == -1) {
-            //Then you just add it on the end
-            cout << k << endl;
-            cout << v << endl;
-            hashNode *temp = new hashNode(k, v);
-            cout << "added new hashNode" << endl;
-            //add the hashNode with the keyword and value.
-            int index = getIndex(k);
-
-            map[index] = temp;
-            numKeys++;
+            index = (index + dblHash(k)) % mapSize;
+                cout << "made it to addKeyValue past else" << endl;
         }
 
-        if (map[hashIndex] == NULL) {
-            //add the key and value
-            //Make a new Hashnode
-            hashNode *temp = new hashNode(k, v);
+        // Case 2: the current key is different. In that case, add the
+        // double hash value to index (and mod mapSize) to test again!
 
-            //add the hashNode with the keyword and value--based on index k from calc hash.
-            //
-            int index = getIndex(k);
-            map[index] = temp;
-            numKeys++;
-        } else if (map[hashIndex] != NULL) {
-            dblHash(k);
-        }
 
     }
-
-
+    // Make a new node, insert it at map[index].
+    cout << "before third constructor" << endl;
+    map[index] = new hashNode(k, v);
+    cout << "after third constructor" << endl;
+    numKeys++;
+    cout << "made it out of addKeyValue" << endl;
 }
 
 
@@ -98,13 +77,11 @@ void hashMap::addKeyValue(string k, string v) {
 
 int hashMap::getIndex(string k) {
     float sev = 0.7; // value for checking if array is 70% full
-    if ((float) (numKeys / mapSize) > sev) {
-        cout << "the array is not big enough" << endl;
+    if ((float) numKeys / mapSize > sev) {
         reHash();
-        cout << "made it past rehash" << endl;
-    } else {
-        return calcHash(k);
     }
+    return calcHash(k) % mapSize;
+
 }
 
 int hashMap::calcHash(string k) {
@@ -114,13 +91,15 @@ int hashMap::calcHash(string k) {
     for (unsigned int i = 0; i < k.size(); i++) {
         sum += k[i];
     }
-    // i.e: string "abc" would have a value of 1+2+3=6 
+    // this actually uses ascii now
     //strSum holds the sum of the chars of string k
     //this hash function calculates index by modding strSum by mapsize
 
-    return sum % mapSize;
+    return sum;
 }
 
+
+//Instructions from my lab
 
 // I used a binary search on an array of prime
 //numbers to find the closest prime to double the map Size, and then set mapSize to
@@ -130,18 +109,25 @@ int hashMap::calcHash(string k) {
 
 void hashMap::getClosestPrime() {
     cout << "made it to get closest prime" << endl;
+    int number = mapSize + 1;
+    while (true) {
+        int i;
+        for (i = 3; (i * i) <= number; i += 2) {
+            if (number % i == 0) {
+                break;
+            }
 
-    for (int number = 0; number < mapSize; number++) {
-        if (number < 2) false;
-        if (number == 2) mapSize == number;
-        if (number % 2 == 0) false;
-        for (int i = 3; (i * i) <= number; i += 2) {
-            if (number % i == 0) false;
         }
-        cout << number << endl;
-        mapSize == number;
+        if (i * i > number) {
+            break;
+        }
+
+        number += 2;
     }
+    mapSize = number;
+
 }
+
 
 // when size of array is at 70%, double array size and rehash
 //keys
@@ -153,58 +139,49 @@ void hashMap::reHash() {
     // compute the new mapSize
     mapSize *= 2;
     getClosestPrime();
+    cout << "made it past get ClosestPrime" << endl;
     // Make new table pointer refer to current map.
-    hashNode **oldMap = map; 
-    
+    hashNode **oldMap = map;
+
     // make new table with new mapSize, assign "map" to it.
-    *map = new hashNode[mapSize]; 
-    
-    // for each item in oldMap:
-    //     - if oldMap[i] != NULL:
-    //          - for each value, v, in oldMap[i]->values:
-    //                    addKeyValue(oldMap[i]->keyword, v);
-    
-    for(int i = 0; i <= currMapSize ; ++i){
-        if (oldMap[i] != NULL){
-            for(int j = 0; j <oldMap[i]->currSize; j++){
+    *map = new hashNode[mapSize];
+
+
+    for (int i = 0; i < currMapSize; i++) {
+        cout << "made it past first for loop" << endl;
+        if (oldMap[i] != NULL) {
+            for (int j = 0; j < oldMap[i]->currSize; j++) {
+                cout << "second for loop" << endl;
                 addKeyValue(oldMap[i]->keyword, oldMap[i]->values[j]);
-            
+                cout << "made it past add key" << endl;
+
             }
+            cout << "made it past both for loops" << endl;
             delete [] oldMap[i]->values;
-            delete [] oldMap[i];
+            delete oldMap[i];
+            cout << "made it past delete" << endl;
+        }
+        
+
+        // delete the old table.
+
     }
     delete [] oldMap;
-
-    // delete the old table.
- 
-}
+    cout << " made it out of rehash" << endl;
 }
 
 int hashMap::dblHash(string k) {
-
-    int primeNum = 7; //Initializing a prime number less than the size of the map
-    //lucky number 7--can't go wrong :)
-
-    int sum = 0;
-    for (unsigned int i = 0; i < k.size(); i++) {
-        sum += k[i];
-    }
-    // i.e: string "abc" would have a value of 1+2+3=6 
-    //strSum holds the sum of the chars of string k
-    //this hash function calculates index by taking primNum and subtracting  strSum mod primeNum
-
-
-    return primeNum - (sum % primeNum);
+    return 7 - calcHash(k) % 7;
 }
 
 int hashMap::findKey(string k) {
-   int index = getIndex(k);
-   while(map[index]!=NULL){
-        if(map[index]->keyword == k){
+    int index = getIndex(k);
+    while (map[index] != NULL) {
+        if (map[index]->keyword == k) {
             return index;
-        }else{
+        } else {
             index = (index + dblHash(k)) % mapSize;
-           }
+        }
     }
     return -1;
 
